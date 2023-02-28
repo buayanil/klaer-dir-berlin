@@ -37,31 +37,103 @@
   }
 }
 
+body, html{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #129490;
+  font-family: Calibri, Arial;
+}
+
+p {
+  width: fit-content;
+  height: 10px;
+  justify-content: left;
+}
+
+.box{
+  width: fit-content;
+  height:auto;
+  flex-direction:column;
+  align-item:center;
+  padding: 1 em;
+  float:left;
+  font-size: 12 pt;
+}
+.liste{
+  width: fit-content;
+  height: 10px auto;
+  margin: 10px;
+}
+
+.loginFooter{
+  position: fixed;
+  color:black;
+  font-size: larger;
+}
+
+
+#map {
+  height: auto;
+  width: 50%;
+}
+
+#UpdateDeleteScreen{
+}
+
+label{
+  font-size: 12pt;
+}
+
+input[type=text], input[type=password], input[type=number] {
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+font-size: 12 pt;
+}
+
+.footer{
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color:#70B77E;
+  color: black;
+  text-align: center;
+}
+
 .flex-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100vh;
-}
-
-
-.large-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  width: 100%;
-  background-color: lightblue;
+  margin: 1 em;
+  background-color: #129490;
+  justify-content:center;
+  align-items:center;
 }
 
 .small-div {
+  background-color: #70B77E;
+  width: 75%;
   margin: 10px;
-  padding: 10px;
-  height: 50px;
-  width: 200px;
-  background-color: white;
-  border: 1px solid black;
-  text-align: center;
+  padding: 100 px;
+  text-align: left;
+  line-height: 75px;
+  font-size: 15px;
+  justify-content:center;
+  flex-direction: row;
+  align-items:center;
 }
+
+.footerbar {
+  background-color: #51835d;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  alignment: bottom;
+}
+
 
