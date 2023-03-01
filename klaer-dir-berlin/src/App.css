@@ -74,11 +74,6 @@ p {
 }
 
 
-#map {
-  height: auto;
-  width: 50%;
-}
-
 #UpdateDeleteScreen{
 }
 
@@ -135,5 +130,33 @@ font-size: 12 pt;
   text-align: center;
   alignment: bottom;
 }
+
+#MainScreen {
+  display: flex;
+  justify-content: space-between;
+}
+
+#Liste {
+  width: 50%;
+}
+
+#map {
+  width: 50%;
+}
+
+#AddScreen {
+  display: flex;
+  justify-content: space-between;
+}
+
+#AddForm {
+  width: 50%;
+}
+
+#addFooter {
+  width: 50%;
+}
+
+
 
 
