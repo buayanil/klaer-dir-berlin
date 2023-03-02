@@ -1,22 +1,38 @@
-import React from "react";
-import "./App.css";
-import Map from "./Map";
+import React, { useState } from 'react';
+import './App.css';
+import Map from './Map';
+import Login from './Login';
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLoginSuccess = () => {
+    setLoggedIn(true);
+  }
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+  }
+
+  if (!loggedIn) {
+    return (
+      <div className="flex-container">
+        <div className="small-div" id="Web-Name">
+          Klär dir Berlin, die Seite für das beste Wasser
+        </div>
+        <div className="small-div" id="LoginScreen">
+          <Login onLoginSuccess={handleLoginSuccess} />
+          <div className="footer loginFooter" id="loginFooter"></div>
+        </div>
+      </div>
+    );
+  }
+  
+  
   return (
     <div className="flex-container">
       <div className="small-div" id="Web-Name">
         Klär dir Berlin, die Seite für das beste Wasser
-      </div>
-      <div className="small-div" id="LoginScreen">
-        <form id="login-form" className="row">
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required />
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" required />
-          <input type="submit" id="login-form-submit" className="button" />
-        </form>
-        <div className="footer loginFooter" id="loginFooter"></div>
       </div>
 
     <div className="small-div" id="MainScreen">
