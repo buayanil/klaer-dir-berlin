@@ -16,20 +16,21 @@ function Login(props) {
       });
 
       const data = await response.json();
+      alert(data.message);
 
       if (data.status === 'admina') {
         props.onLoginSuccess('admina');
+        
       } else if (data.status === 'guest') {
         props.onLoginSuccess('guest');
       }
     } catch (error) {
       alert('Invalid Username or Password');
-      console.error(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form id="LoginScreen" onSubmit={handleSubmit}>
       <label htmlFor="username">Username:</label>
       <input
         type="text"
@@ -54,4 +55,3 @@ function Login(props) {
 }
 
 export default Login;
-
