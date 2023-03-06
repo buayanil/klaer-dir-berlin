@@ -157,6 +157,19 @@ font-size: 12 pt;
   width: 50%;
 }
 
+#Web-Name.small-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#Web-Name.small-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
 
 
 

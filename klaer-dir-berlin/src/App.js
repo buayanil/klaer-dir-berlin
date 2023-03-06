@@ -38,18 +38,16 @@ function App() {
     <div className="flex-container">
       <div className="small-div" id="Web-Name">
         Klär dir Berlin, die Seite für das beste Wasser
+        <Logout onLogout={handleLogout} />
       </div>
 
       <div className="small-div" id="MainScreen">
-        <p id="WilkommenNachricht">Wilkommen!</p>
         <div id="Liste" className="box"></div>
         <div id="main-container">
           <div id="map-container">
             <Map />
           </div>
-          <Logout onLogout={handleLogout} />
         </div>
-        <div className="footerbar box" id="mainFooter"></div>
       </div>
 
       <div id="add-container" className='small-div'>
