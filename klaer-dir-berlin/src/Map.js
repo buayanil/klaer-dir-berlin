@@ -27,7 +27,14 @@ function Map() {
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {markerList.map((location) => (
         <Marker key={location.id} position={[location.lat, location.long]}>
-          <Popup>{location.name}</Popup>
+          <Popup>
+            <div>
+              <h3>{location.name}</h3>
+              <p>{location.adresse}</p>
+              <p>{location.plz} {location.stadt}</p>
+            </div>
+          </Popup>
+
         </Marker>
       ))}
     </MapContainer>

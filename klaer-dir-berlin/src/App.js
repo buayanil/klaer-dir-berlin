@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Map from './Map';
 import Login from './Login';
 import Logout from './Logout';
 import AddButton from './AddButton';
+import { handleLocationClick } from './HandleLocationClick';
+
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    // Call the fetchData function when the component mounts
+    fetchData();
+    // Set an interval to call the fetchData function every 10 seconds
+    const intervalId = setInterval(fetchData, 10000);
+    // Return a cleanup function to clear the interval
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const fetchData = () => {
+    fetch("http://localhost:3001/susLocs/")
+      .then(response => response.json())
+      .then(data => setLocations(data.data))
+      .catch(error => console.log(error));
+  };
 
   const handleLoginSuccess = (username) => {
     if (username === 'admina') {
@@ -40,20 +59,30 @@ function App() {
         Klär dir Berlin, die Seite für das beste Wasser
         <Logout onLogout={handleLogout} />
       </div>
-
+  
       <div className="small-div" id="MainScreen">
-        <div id="Liste" className="box"></div>
+        <div id="Liste">
+          {locations.map(location => (
+            <div
+              key={location._id}
+              id={location._id}
+              onClick={() => handleLocationClick(location)}
+            >
+              {location.name}
+            </div>
+          ))}
+        </div>
         <div id="main-container">
           <div id="map-container">
             <Map />
           </div>
         </div>
       </div>
-
+  
       <div id="add-container" className='small-div'>
-            {isAdmin && <AddButton />}
-          </div>
-
+        {isAdmin && <AddButton />}
+      </div>
+  
       <div className="small-div" id="UpdateScreen">
         <form id="UpdateForm">
           <label htmlFor="name">Name:</label>
@@ -83,6 +112,7 @@ function App() {
       </div>
     </div>
   );
+  
 }
 
 export default App;
