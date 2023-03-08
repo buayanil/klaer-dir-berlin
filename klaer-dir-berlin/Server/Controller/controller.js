@@ -63,7 +63,7 @@ class UserController {
     const filter = {};
     try {
       const all = await Location.find(filter);
-      return res.status(200).json({
+      res.status(200).json({
         message: "success get location",
         status: "success",
         data: all
@@ -114,11 +114,7 @@ class UserController {
         let updatedLocation = await Location.findOneAndUpdate(filter, update, {
           new: true
         });
-        console.log(updatedLocation)
-        return res.status(204).json({
-          message: "success update location",
-          status: "success"
-        });
+        return res.status(204).json()
       } else {
         throw {
           status: 400,
@@ -137,11 +133,7 @@ class UserController {
       const location = await Location.findById(id);
       if(location.length!==0){
         const deleted = await Location.deleteOne(filter);
-        console.log(deleted)
-        return res.status(204).json({
-          message: "success deleted",
-          status: "success",
-        });
+        res.status(204).json()
       } else {
           throw {
             status: 400,

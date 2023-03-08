@@ -5,8 +5,7 @@ import Login from './Login';
 import Logout from './Logout';
 import AddButton from './AddButton';
 import Footer from "./Footer";
-import { handleLocationClick } from './HandleLocationClick';
-import {handleDelete} from './HandleLocationClick';
+import {fetchData, deleteData, putData} from './API'
 
 
 
@@ -19,19 +18,14 @@ function App() {
 
   useEffect(() => {
     // Call the fetchData function when the component mounts
-    fetchData();
-    // Set an interval to call the fetchData function every 10 seconds
-    const intervalId = setInterval(fetchData, 10000);
-    // Return a cleanup function to clear the interval
-    return () => clearInterval(intervalId);
+    
+    async function getData(){
+      var fromAPI = await fetchData("http://localhost:3001/susLocs/");
+      setLocations(fromAPI)
+    }
+    getData()
   }, []);
 
-  const fetchData = () => {
-    fetch("http://localhost:3001/susLocs/")
-      .then(response => response.json())
-      .then(data => setLocations(data.data))
-      .catch(error => console.log(error));
-  };
 
   const handleLoginSuccess = (username) => {
     if (username === 'admina') {
@@ -48,30 +42,33 @@ function App() {
     setShowUpdateScreen(false);
   }
 
-  function handleUpdate(event) {
+  async function handleUpdate(event) {
     event.preventDefault();
-    console.log(updateForm)
-    putData("http://localhost:3001/susLocs/"+updateForm._id,
-      {name:updateForm.name, id:updateForm.id, adresse:updateForm.adresse,
-         plz:updateForm.plz, stadt:updateForm.stadt, lat:updateForm.lat, long:updateForm.long})
-      
+    setShowUpdateScreen(false)
+    const newLocation = {
+      name:updateForm.name,
+      id:updateForm.id, 
+      adresse:updateForm.adresse,
+      plz:updateForm.plz, 
+      stadt:updateForm.stadt, 
+      lat:updateForm.lat, 
+      long:updateForm.long
+    }
+    const response = await putData("http://localhost:3001/susLocs/"+updateForm._id, newLocation)
+    if(response.ok){
+      var fromAPI = await fetchData("http://localhost:3001/susLocs/");
+      setLocations(fromAPI)
+    }   
   }
 
-  async function putData(url = '', data = {}) {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
-    });
+  async function handleDelete(event){
+    event.preventDefault();
+    setShowUpdateScreen(false)
+    const response = await deleteData("http://localhost:3001/susLocs/", updateForm._id)
+    if(response.ok){
+      var fromAPI = await fetchData("http://localhost:3001/susLocs/");
+      setLocations(fromAPI)
+    }
   }
 
 
@@ -98,12 +95,11 @@ function App() {
   
       <div className="small-div" id="MainScreen">
         <div id="Liste">
-          {locations.map(location => (
+          {locations?.map(location => (
             <div
               key={location._id}
               id={location._id}
               onClick={() => {
-                handleLocationClick(location);
                 setShowUpdateScreen(true);
                 setUpdateForm(location);
               }}
@@ -115,13 +111,13 @@ function App() {
         </div>
         <div id="main-container">
           <div id="map-container">
-            <Map />
+            <Map locations={locations}/>
           </div>
         </div>
       </div>
   
       <div id="add-container" className='small-div'>
-        {isAdmin && <AddButton />}
+        {isAdmin && <AddButton setLocations={setLocations}/>}
       </div>
       
       {showUpdateScreen && (        

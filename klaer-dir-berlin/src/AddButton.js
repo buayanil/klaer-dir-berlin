@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { onSave } from './HandleSaveClick';
+import { postData, fetchData } from './API';
 
-function AddButton(props) {
+function AddButton({setLocations}) {
   const [showAddScreen, setShowAddScreen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -17,9 +17,14 @@ function AddButton(props) {
     setShowAddScreen(true);
   }
 
-  const handleSaveClick = () => {
+  const handleSave = async() => {
     setShowAddScreen(false);
-    onSave(formData);
+    const data = await postData("http://localhost:3001/susLocs/", formData)
+    if(data.status==='success'){
+      var fromAPI = await fetchData("http://localhost:3001/susLocs/");
+      setLocations(fromAPI)
+    }
+
   }
 
   const handleCancelClick = () => {
@@ -59,7 +64,7 @@ function AddButton(props) {
             <label htmlFor="long">Long:</label>
             <input type="text" id="long" name="long" value={formData.long} onChange={handleFormChange}/>
             <br/>
-            <button id="SaveButton" onClick={handleSaveClick}>Save</button>
+            <button id="SaveButton" onClick={handleSave}>Save</button>
             <button id="CancelButton" onClick={handleCancelClick}>Cancel</button>
           </form>
         </div>
