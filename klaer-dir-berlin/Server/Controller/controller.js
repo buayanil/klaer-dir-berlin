@@ -27,7 +27,7 @@ class UserController {
       
       } else {
         throw {
-          status: 400,
+          status: 401,
           message: "Invalid Username or Password",
         };
       }
